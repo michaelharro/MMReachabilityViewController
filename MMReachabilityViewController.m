@@ -104,8 +104,9 @@ static inline Reachability* defaultReachability () {
     BOOL _loaded;
 }
 
-@synthesize bannerView = _bannerView;
-@synthesize mode = _mode;
+@synthesize reachablityDelegate	= _reachablityDelegate;
+@synthesize bannerView	= _bannerView;
+@synthesize mode		= _mode;
 @synthesize visibilityTime;
 
 - (void)dealloc {
@@ -398,6 +399,9 @@ static inline Reachability* defaultReachability () {
             
             [self cancel];
             [self performSelector:@selector(showBanner) withObject:nil afterDelay:0.1]; // performed with a small delay to avoid multiple notification causing stange jumping
+			if ([self.reachablityDelegate respondsToSelector:@selector(connectionDidBecomeUnreachable)]) {
+				[(NSObject *)(self.reachablityDelegate) performSelector:@selector(connectionDidBecomeUnreachable) withObject:nil afterDelay:0.1];
+			}
             break;
         }
             
@@ -406,6 +410,9 @@ static inline Reachability* defaultReachability () {
             
             [self cancel];
             [self performSelector:@selector(hideBanner) withObject:nil afterDelay:0.1]; // performed with a small delay to avoid multiple notification causing stange jumping
+			if ([self.reachablityDelegate respondsToSelector:@selector(connectionDidBecomeUnreachable)]) {
+				[(NSObject *)(self.reachablityDelegate) performSelector:@selector(connectionDidBecomeReachable) withObject:nil afterDelay:0.1];
+			}
             break;
         }
             
@@ -417,7 +424,9 @@ static inline Reachability* defaultReachability () {
 - (void)cancel {
     
     [MMReachabilityViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(showBanner) object:nil];
+	[MMReachabilityViewController cancelPreviousPerformRequestsWithTarget:self.reachablityDelegate selector:@selector(connectionDidBecomeUnreachable) object:nil];
     [MMReachabilityViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideBanner) object:nil];
+	[MMReachabilityViewController cancelPreviousPerformRequestsWithTarget:self.reachablityDelegate selector:@selector(connectionDidBecomeReachable) object:nil];
 }
 
 @end

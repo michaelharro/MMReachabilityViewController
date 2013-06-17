@@ -8,6 +8,6 @@
 
 #import "MMReachabilityViewController.h"
 
-@interface ExampleViewController : MMReachabilityViewController
+@interface ExampleViewController : MMReachabilityViewController <MMReachabilityDelegate>
 
 @end

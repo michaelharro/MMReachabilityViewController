@@ -30,16 +30,31 @@ typedef enum {
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  if you need to update your UI when the reachablility changes make your view controller adhear to this protocol
+ *  and your methods will be called when the reachablility changes.
+ */
+@protocol MMReachabilityDelegate <NSObject>
+@optional
+
+-(void)connectionDidBecomeReachable;
+-(void)connectionDidBecomeUnReachable;
+
+@end
+
 @interface MMReachabilityViewController : UIViewController {
     
     @protected
     UIView *_bannerView;
+	id<MMReachabilityDelegate> _reachablityDelegate;
 }
 
 /**
  *  The view to display when there is not internet connection, the width should be the same of the view of the view controller
  */
 @property (nonatomic, strong) UIView *bannerView;
+
+@property (nonatomic, strong) id<MMReachabilityDelegate> reachablityDelegate;
 
 /**
  *  the MMReachabilityMode can't not be change after that the view has been loaded

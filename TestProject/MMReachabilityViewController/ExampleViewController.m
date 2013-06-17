@@ -17,6 +17,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	self.reachablityDelegate = self;
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
     [titleLabel setBackgroundColor:[UIColor clearColor]];
@@ -28,6 +30,14 @@
     [titleLabel setText:@"MMReachabilityViewController"];
     self.navigationItem.titleView = titleLabel;
     [titleLabel release];
+}
+
+-(void)connectionDidBecomeReachable {
+	NSLog(@"REACHABLE");
+}
+
+-(void)connectionDidBecomeUnreachable {
+	NSLog(@"UNREACHABLE");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
