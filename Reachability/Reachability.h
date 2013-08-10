@@ -65,8 +65,11 @@ typedef enum {
 //reachabilityWithHostName- Use to check the reachability of a particular host name. 
 + (Reachability*) reachabilityWithHostName: (NSString*) hostName;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wvisibility"
 //reachabilityWithAddress- Use to check the reachability of a particular IP address. 
 + (Reachability*) reachabilityWithAddress: (const struct sockaddr_in*) hostAddress;
+#pragma GCC diagnostic pop
 
 //reachabilityForInternetConnection- checks whether the default route is available.  
 //  Should be used by applications that do not connect to a particular host
